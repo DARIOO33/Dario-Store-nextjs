@@ -229,6 +229,23 @@
 
   .chatRow .btnPrimary {
     margin-left: auto;
+    min-height: 2.9rem;
+    min-width: 6rem;
+  }
+
+  .chatRow .attachBtn {
+    min-height: 2.9rem;
+  }
+
+  .payBarCompose {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .payBarCompose .btn {
+    width: 100%;
+    min-height: 2.9rem;
   }
 }
 

@@ -152,6 +152,16 @@
   font-size: 2rem;
 }
 
+.summaryLogin {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.summaryLogin p {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
 .freeShip {
   margin-bottom: 1rem;
   font-size: 0.9rem;
@@ -221,6 +231,22 @@
 }
 
 @media (max-width: 620px) {
+  .checkoutForm,
+  .summary {
+    padding: 1rem;
+  }
+
+  .checkoutForm .input {
+    min-height: 2.9rem;
+    font-size: 1rem;
+  }
+
+  .checkoutForm .btn,
+  .summary .btn {
+    min-height: 2.9rem;
+    white-space: normal;
+  }
+
   .cartLine {
     grid-template-columns: 4rem minmax(0, 1fr);
     gap: 0.6rem 0.8rem;

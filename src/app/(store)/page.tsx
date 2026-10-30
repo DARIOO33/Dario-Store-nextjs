@@ -13,6 +13,7 @@ import { getLocale, getT } from "@/src/i18n/server";
 import JsonLd from "@/src/components/seo/JsonLd";
 import { storeJsonLd } from "@/src/lib/seo";
 import { STORE_NAME } from "@/src/lib/store";
+import AliExpressCalculator from "@/src/components/catalog/AliExpressCalculator";
 
 export const dynamic = "force-dynamic";
 
@@ -165,6 +166,7 @@ export default async function HomePage() {
               {t("home.aliButton")}
             </Link>
           </div>
+          <AliExpressCalculator />
         </div>
       </section>
 

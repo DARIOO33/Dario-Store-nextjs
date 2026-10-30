@@ -3,6 +3,7 @@ import { formatMillimes } from "@/src/lib/money";
 import { FREE_SHIPPING_FROM_MILLIMES } from "@/src/lib/store";
 import type { summarize } from "@/src/components/cart/totals";
 import { useT } from "@/src/i18n/client";
+import { rememberAfterLogin } from "@/src/lib/after-login";
 
 type Props = {
   totals: ReturnType<typeof summarize>;
@@ -19,6 +20,7 @@ export default function OrderSummary({ totals, submitting, disabled, needsLogin,
   const t = useT();
   const { subtotal, physicalSubtotal, requiresShipping, shipping, total, hasPick, mixedPicks } = totals;
   const untilFree = FREE_SHIPPING_FROM_MILLIMES - physicalSubtotal;
+  const rememberCart = () => rememberAfterLogin("/cart");
 
   return (
     <div className="summary">
@@ -54,10 +56,18 @@ export default function OrderSummary({ totals, submitting, disabled, needsLogin,
         </div>
       </dl>
 
-      <button type="submit" form="checkout-form" className="btn btnAccent btnLg btnBlock" disabled={disabled}>
-        {submitting && <span className="spinner spinnerSm" aria-hidden="true" />}
-        {submitting ? t("summary.placing") : needsLogin ? t("summary.logInToOrder") : t("summary.placeOrder", { total: formatMillimes(total) })}
-      </button>
+      {needsLogin ? (
+        <div className="summaryLogin">
+          <p>{t("summary.logInToOrder")}</p>
+          <Link href="/login" className="btn btnPrimary btnLg btnBlock" onClick={rememberCart}>{t("checkout.logIn")}</Link>
+          <Link href="/register" className="btn btnGhost btnLg btnBlock" onClick={rememberCart}>{t("checkout.createAccount")}</Link>
+        </div>
+      ) : (
+        <button type="submit" form="checkout-form" className="btn btnAccent btnLg btnBlock" disabled={disabled}>
+          {submitting && <span className="spinner spinnerSm" aria-hidden="true" />}
+          {submitting ? t("summary.placing") : t("summary.placeOrder", { total: formatMillimes(total) })}
+        </button>
+      )}
       {hasUnavailable && <p className="cartWarn" style={{ marginTop: "0.6rem" }}>{t("summary.removeUnavailable")}</p>}
       {mixedPicks && <p className="cartWarn" style={{ marginTop: "0.6rem" }}>{t("summary.picksSeparate")}</p>}
       <p className="hint" style={{ marginTop: "0.8rem" }}>
