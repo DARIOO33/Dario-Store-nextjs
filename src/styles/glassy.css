@@ -1,0 +1,198 @@
+/* Glassy UI skin: translucent surfaces, cool light and soft depth across every route. */
+:root {
+  color-scheme: light;
+  --paper: #edf3fb;
+  --paper-2: #e3edf8;
+  --card: rgba(255, 255, 255, 0.68);
+  --field: rgba(255, 255, 255, 0.76);
+  --line: rgba(72, 103, 145, 0.16);
+  --line-2: rgba(72, 103, 145, 0.3);
+  --ink: #17253b;
+  --ink-2: #52647e;
+  --ink-3: #7d8da4;
+  --accent: #3978ef;
+  --accent-soft: rgba(57, 120, 239, 0.12);
+  --cobalt: #3978ef;
+  --cobalt-soft: rgba(57, 120, 239, 0.12);
+  --on-accent: #fff;
+  --border: 1px solid var(--line);
+  --shadow: 0 18px 44px -26px rgba(35, 70, 120, 0.42);
+  --shadow-sm: 0 8px 24px -16px rgba(35, 70, 120, 0.35);
+  --radius: 18px;
+  --font-display: "Instrument Sans Variable", system-ui, sans-serif;
+}
+
+html { background: var(--paper); }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 8% 4%, rgba(91, 157, 255, .2), transparent 34rem),
+    radial-gradient(ellipse at 96% 17%, rgba(187, 216, 255, .55), transparent 37rem),
+    linear-gradient(145deg, #f6f9ff 0%, #eaf2fc 48%, #f2f6fc 100%);
+  background-attachment: fixed;
+}
+
+h1,h2,h3,h4 { font-weight: 650; line-height: 1.1; letter-spacing: -.035em; text-transform: none; }
+::selection { background: rgba(57,120,239,.22); color: var(--ink); }
+
+/* Shared chrome */
+.ticker { background: rgba(29, 55, 91, .9); color: #f6f9ff; backdrop-filter: blur(16px); }
+.tickerTrack span::after { color: #9dc3ff; }
+.header {
+  border-bottom: 1px solid rgba(255,255,255,.75);
+  background: rgba(244, 248, 255, .72);
+  box-shadow: 0 8px 30px -25px rgba(32, 60, 103, .6);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+}
+.brand { letter-spacing: -.04em; }
+.searchInput,.input,.field input,.field textarea,.field select,
+input:not([type="checkbox"]):not([type="radio"]),textarea,select {
+  border: 1px solid rgba(90, 119, 159, .2);
+  border-radius: 12px;
+  background: rgba(255,255,255,.62);
+  box-shadow: inset 0 1px rgba(255,255,255,.8), 0 1px 2px rgba(32,60,103,.03);
+}
+.searchInput:focus,.input:focus,.field input:focus,.field textarea:focus,.field select:focus,
+input:focus,textarea:focus,select:focus {
+  outline: none;
+  border-color: rgba(57,120,239,.5);
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 0 0 4px rgba(57,120,239,.12);
+}
+.menuPanel,.panel,.infoCard,.formPanel,.orderCard,.cartSide,.payBox,.chat,.chatReview,
+.adminNav,.adminTable,.catManager,.placingCard,.aliCalculator,.buyBox,.galleryMain,
+.pcard,.card,.notice,.empty,.reviewCard,.reviewForm,.trackCard,.trackingCard,
+.authCard,.authPanel,.checkoutForm,.orderItems,.orderSide,.payBar,.cartLine {
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.58);
+  box-shadow: inset 0 1px rgba(255,255,255,.82), 0 16px 38px -28px rgba(42,72,115,.42);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+}
+.menuPanel { border-color: rgba(255,255,255,.8); box-shadow: var(--shadow); }
+.menuHead { border-color: var(--line); }
+.menuItem { border-radius: 9px; }
+.menuItem:hover { background: rgba(57,120,239,.1); color: var(--ink); }
+
+/* Controls */
+.btn,.btnPrimary,.btnAccent,.btnGhost,.linkBtn,.quickAdd,.accountBtn,
+button:not(.menuItem):not(.langSwitch button):not(.pagination button) {
+  border-radius: 12px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.btnPrimary,.btnAccent { border: 1px solid rgba(255,255,255,.48); background: linear-gradient(145deg,#5a94ff,#3472e8); color: #fff; box-shadow: 0 8px 18px -10px rgba(42,105,221,.72), inset 0 1px rgba(255,255,255,.35); }
+.btnPrimary:hover,.btnAccent:hover { background: linear-gradient(145deg,#6ba0ff,#3978ef); transform: translateY(-1px); box-shadow: 0 12px 22px -12px rgba(42,105,221,.7), inset 0 1px rgba(255,255,255,.42); }
+.btn,.btnGhost,.linkBtn,.quickAdd,.accountBtn { border: 1px solid rgba(84,114,155,.16); background: rgba(255,255,255,.46); box-shadow: inset 0 1px rgba(255,255,255,.72), 0 4px 12px -10px rgba(30,55,93,.6); }
+.btn:hover,.btnGhost:hover,.linkBtn:hover,.quickAdd:hover,.accountBtn:hover { background: rgba(255,255,255,.78); transform: translateY(-1px); }
+.cartCount,.badge,.chip,.pill { border-radius: 999px; }
+.cartCount { background: var(--accent); color: white; }
+
+/* Store cards, catalog, and page structure */
+.pageHead,.panelHead { border-color: var(--line); }
+.pcard { overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.pcard:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -28px rgba(38,78,139,.55); }
+.pcardArt,.pcardMedia,.galleryMain { border-radius: 15px; }
+.catBar { background: rgba(255,255,255,.38); border-color: var(--line); backdrop-filter: blur(14px); }
+.chip,.pill { border: 1px solid rgba(255,255,255,.72); background: rgba(255,255,255,.58); }
+.hero { border-radius: 28px; overflow: hidden; }
+.deckCard { border-radius: 20px; box-shadow: var(--shadow); }
+.footer { background: rgba(29,55,91,.94); color: #edf4ff; border-top: 1px solid rgba(255,255,255,.24); }
+.footer h4 { color: #a9c9ff; }
+
+/* Admin, checkout, tracking and messaging remain readable over the same material. */
+.adminShell { background: transparent; }
+.adminNav,.adminSide { background: rgba(255,255,255,.48); }
+.adminTable { overflow: hidden; }
+.adminTableHead { background: rgba(225,236,250,.58); }
+.adminLink.active,.adminLink:hover { border-radius: 10px; background: rgba(57,120,239,.11); }
+.chatLog,.chatForm,.cartLines,.orderItems,.payLines { border-color: var(--line); }
+.msg { border-radius: 16px; }
+.msgMine { background: linear-gradient(145deg,#5590fa,#3472e8); color: #fff; }
+.progressTrack,.bar { border-radius: 999px; overflow: hidden; }
+.progressBar { border-radius: inherit; background: linear-gradient(90deg,#4b88f4,#7bb3ff); }
+.footerWord { opacity: .14; }
+
+/* Bring the less common route surfaces into the same material system. */
+.authPage {
+  background-color: transparent;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(75, 112, 164, .1) 1px, transparent 0),
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.62), transparent 70%);
+  background-size: 22px 22px, auto;
+}
+.googleBtn,.segmented label,.star,.switch,.thumb,.thumb > * {
+  border-radius: 12px;
+}
+.googleBtn,.segmented label,.star { border-color: rgba(84,114,155,.2); background: rgba(255,255,255,.5); }
+.segmented label.active { background: rgba(57,120,239,.12); }
+.checkCircle { border: 1px solid rgba(255,255,255,.7); border-radius: 50%; background: linear-gradient(145deg,#50b89a,#258c78); box-shadow: 0 10px 24px -14px rgba(20,110,91,.65); }
+
+.hero {
+  border: 1px solid rgba(255,255,255,.82);
+  background:
+    radial-gradient(ellipse at 78% 25%, rgba(128,177,255,.32), transparent 36rem),
+    linear-gradient(135deg, rgba(255,255,255,.82), rgba(223,237,255,.58));
+  box-shadow: inset 0 1px rgba(255,255,255,.9), 0 20px 48px -38px rgba(42,72,115,.5);
+}
+.hero::before { opacity: .18; }
+.hAccent { color: #d8e8ff; -webkit-text-stroke-color: rgba(57,120,239,.52); text-shadow: 0 8px 22px rgba(57,120,239,.16); }
+.kicker { border: 1px solid rgba(255,255,255,.68); border-radius: 999px; background: rgba(57,120,239,.1); color: var(--accent); }
+.deckArt,.deckTag { border-color: rgba(255,255,255,.86); border-radius: 16px; background: rgba(255,255,255,.62); box-shadow: inset 0 1px rgba(255,255,255,.9); backdrop-filter: blur(16px); }
+.sticker { border-color: rgba(255,255,255,.8); background: rgba(57,120,239,.84); color: #fff; box-shadow: 0 12px 28px -16px rgba(35,82,159,.7); }
+.tile,.step,.aliBand,.catTile,.categoryTile,.stepCard,.howStep {
+  border: 1px solid rgba(255,255,255,.78);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.5);
+  box-shadow: inset 0 1px rgba(255,255,255,.82), var(--shadow-sm);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+.tile.tileYellow,.tile.tileMint,.tile.tileLilac,.tile.tilePink,.tile.tilePaper { background: rgba(255,255,255,.52); color: var(--ink); }
+.tileCount { border-radius: 999px; background: rgba(57,120,239,.1); color: var(--accent); }
+.stepNo { border-radius: 999px; background: rgba(57,120,239,.12); color: var(--accent); }
+
+.kpi,.kpi-orange,.kpi-yellow,.kpi-mint,.kpi-pink {
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.56);
+  box-shadow: inset 0 1px rgba(255,255,255,.88), var(--shadow-sm);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+.statusList a,.miniList a { border-radius: 10px; }
+.statusList a:hover,.miniList a:hover { border-color: rgba(57,120,239,.2); background: rgba(255,255,255,.68); }
+.adminSide { border-color: rgba(255,255,255,.78); background: rgba(240,246,255,.58); backdrop-filter: blur(20px); }
+.adminNav a.active { background: rgba(57,120,239,.14); color: var(--accent); box-shadow: inset 3px 0 var(--accent); }
+.adminTable > .adminTableHead { border-bottom-color: var(--line); }
+.adminTable > li { border-bottom-color: rgba(72,103,145,.12); }
+.bar { border: 0; }
+
+.notice,.empty,.infoCard,.formPanel,.orderCard,.cartSide,.payBox,.chatReview,.trackCard,
+.trackingCard,.authCard,.authPanel,.checkoutForm,.orderItems,.orderSide,.payBar,.cartLine,
+.catManager,.placingCard,.aliCalculator,.buyBox,.reviewCard,.reviewForm {
+  background-color: rgba(255,255,255,.58);
+}
+.cartEmpty,.emptyState { background: rgba(255,255,255,.48); border-color: rgba(255,255,255,.8); }
+.cartOverlay { background: rgba(28,47,76,.28); backdrop-filter: blur(8px); }
+
+table { border-color: var(--line); }
+th { background: rgba(225,236,250,.58); }
+td,th { border-color: var(--line); }
+hr { border-color: var(--line); }
+
+@media (max-width: 700px) {
+  .hero { border-radius: 20px; }
+  .heroGrid { padding-inline: 1rem; }
+  .adminSide { backdrop-filter: blur(14px); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .header,.menuPanel,.panel,.infoCard,.formPanel,.orderCard,.cartSide,.payBox,.chat,.chatReview,
+  .adminNav,.adminTable,.catManager,.placingCard,.aliCalculator,.buyBox,.galleryMain,.pcard,
+  .card,.notice,.empty,.reviewCard,.reviewForm,.trackCard,.trackingCard,.authCard,.authPanel,
+  .checkoutForm,.orderItems,.orderSide,.payBar,.cartLine { background: rgba(255,255,255,.94); backdrop-filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
