@@ -12,6 +12,8 @@ import { formatDateTime } from "@/src/lib/time";
 import { getT } from "@/src/i18n/server";
 import { requirePageRole } from "@/src/lib/guards";
 import { TEAM } from "@/src/lib/roles";
+import { getCurrentUser } from "@/src/lib/session";
+import OrderSelectionList from "@/src/components/admin/OrderSelectionList";
 
 export const metadata: Metadata = { title: "Orders" };
 
@@ -20,6 +22,7 @@ const PAGE_SIZE = 15;
 export default async function AdminOrdersPage({ searchParams }: { searchParams: Promise<{ status?: string; page?: string }> }) {
   // Checked here too, not only in the admin layout: a layout is skipped when the browser asks for just this page.
   await requirePageRole(...TEAM);
+  const currentUser = await getCurrentUser();
   const sp = await searchParams;
   const t = await getT();
   const status = ORDER_STATUSES.find((s) => s === sp.status);
@@ -58,9 +61,8 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
           <p className="muted">No orders here.</p>
         </div>
       ) : (
-        <ul className="orderList">
+        <OrderSelectionList rows={rows.map(({ id, orderNumber, status }) => ({ id, orderNumber, status }))} isAdmin={currentUser?.role === "ADMIN"}>
           {rows.map((order) => (
-            <li key={order.id}>
               <Link href={`/admin/orders/${order.id}`} className="orderCard">
                 <div>
                   <strong className="orderNo">
@@ -75,9 +77,8 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                 <StatusBadge status={order.status} />
                 <strong>{formatMillimes(order.totalMillimes)}</strong>
               </Link>
-            </li>
           ))}
-        </ul>
+        </OrderSelectionList>
       )}
 
       <Pagination page={page} pages={pages} href={(p) => `/admin/orders${buildQuery({ status, page: p > 1 ? p : undefined })}`} />

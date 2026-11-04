@@ -132,3 +132,50 @@ export async function setOrderStatusAction(orderId: string, status: OrderStatus)
     revalidatePath("/admin", "layout");
   });
 }
+
+export async function bulkSetOrderStatusAction(orderIds: string[], status: OrderStatus) {
+  await requireRole(...TEAM);
+
+  return await safely(async () => {
+    if (!Array.isArray(orderIds) || orderIds.length < 1 || orderIds.length > 100 || !orderIds.every((id) => typeof id === "string" && id.length > 0)) {
+      throw new UserError("Select between 1 and 100 orders.");
+    }
+    if (!ORDER_STATUSES.includes(status)) throw new UserError("Unknown status.");
+
+    let updated = 0;
+    const failed: string[] = [];
+    for (const id of [...new Set(orderIds)]) {
+      try {
+        await OrderService.setStatus(id, status);
+        updated++;
+      } catch {
+        failed.push(id);
+      }
+    }
+    revalidatePath("/admin", "layout");
+    return { updated, failed };
+  });
+}
+
+export async function bulkDeleteCancelledOrdersAction(orderIds: string[]) {
+  await requireRole("ADMIN");
+
+  return await safely(async () => {
+    if (!Array.isArray(orderIds) || orderIds.length < 1 || orderIds.length > 100 || !orderIds.every((id) => typeof id === "string" && id.length > 0)) {
+      throw new UserError("Select between 1 and 100 orders.");
+    }
+
+    let deleted = 0;
+    const failed: string[] = [];
+    for (const id of [...new Set(orderIds)]) {
+      try {
+        await OrderService.deleteCancelled(id);
+        deleted++;
+      } catch {
+        failed.push(id);
+      }
+    }
+    revalidatePath("/admin", "layout");
+    return { deleted, failed };
+  });
+}

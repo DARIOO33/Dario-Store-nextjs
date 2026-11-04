@@ -172,6 +172,42 @@
   list-style: none;
 }
 
+.orderBulkBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border: var(--border);
+  border-radius: 4px;
+  background: var(--card);
+}
+
+.orderSelectAll,
+.orderListRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.orderListRow > input,
+.orderSelectAll > input {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--accent);
+}
+
+.orderListRow > .orderCard {
+  flex: 1;
+  min-width: 0;
+}
+
+.orderBulkBar .input {
+  width: auto;
+}
+
 .orderCard {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
