@@ -16,7 +16,8 @@
     "SMTP_HOST": "mailpro2.tn.oxa.host",
     "SMTP_PORT": "465",
     "SMTP_SECURE": "true",
-    "SMTP_USER": "contact@dariostore.tn"
+    "SMTP_USER": "contact@dariostore.tn",
+    "BETTER_AUTH_URL":"https://www.dariostore.tn"
   },
 
   "observability": {
