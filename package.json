@@ -5,6 +5,9 @@
   "packageManager": "npm@11.6.0",
   "type": "module",
   "scripts": {
+  
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "build": "next build",
     "postbuild": "node scripts/prepare-standalone.mjs",
     "composer:deploy": "prisma deploy module.ts",
@@ -13,7 +16,6 @@
     "db:init": "prisma db init",
     "db:update": "prisma db update",
     "db:verify": "prisma db verify",
-    "deploy": "npm run build && npm run composer:deploy",
     "dev": "next dev",
     "dev:composer": "npm run build && npm run composer:dev",
     "lint": "eslint",
@@ -35,6 +37,7 @@
     "@fontsource-variable/instrument-sans": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource/anton": "^5.3.0",
+    "@opennextjs/cloudflare": "^1.20.16",
     "@prisma/composer": "0.20.0",
     "@prisma/composer-prisma-cloud": "0.20.0",
     "@prisma/orm-postgres": "8.0.0-rc.11",
@@ -63,7 +66,8 @@
     "tsx": "^4.7.1",
     "typescript": "^5.9.3",
     "vite": "^8.3.1",
-    "vitest": "^5.0.2"
+    "vitest": "^5.0.2",
+    "wrangler": "^4.158.0"
   },
   "overrides": {
     "effect": "4.0.0-rc.112"
