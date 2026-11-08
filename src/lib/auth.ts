@@ -6,16 +6,22 @@ import { sendEmail } from "./email";
 import { runAfterResponse } from "./background";
 import { verificationCodeEmail } from "./email-templates";
 import { getLocale } from "../i18n/server";
+import { perRequest } from "./per-request";
 
-// Next bundles this file more than once (pages and /api routes), so the pool lives on globalThis:
-// one small pool per server process instead of one per copy, or the database runs out of
-// connections ("EMAXCONN max client connections reached").
-const shared = globalThis as typeof globalThis & { authPool?: Pool };
-const database = (shared.authPool ??= new Pool({
-  connectionString: process.env.DATABASE_URL,
-  max: 5,
-  idleTimeoutMillis: 10_000,
-}));
+// Next bundles this file more than once (pages and /api routes), so perRequest keeps the pool on
+// globalThis: one small pool per server process instead of one per copy, or the database runs out
+// of connections ("EMAXCONN max client connections reached"). On Cloudflare each request gets its
+// own pool, because a pool can't be shared between requests there (see lib/per-request.ts).
+const currentPool = perRequest(
+  "authPool",
+  () => new Pool({ connectionString: process.env.DATABASE_URL, max: 5, idleTimeoutMillis: 10_000 }),
+);
+
+// better-auth only calls connect() and end(); this forwards them to the current request's pool.
+const database = {
+  connect: () => currentPool().connect(),
+  end: () => currentPool().end(),
+} as unknown as Pool;
 
 export const auth = betterAuth({
   database,
