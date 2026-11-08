@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "dario-store-nextjs",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-08",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "vars": {
+    "CLOUDINARY_CLOUD_NAME": "dizjoy6v5",
+    "MAIL_FROM": "Dario Store <contact@dariostore.tn>",
+    "SMTP_HOST": "mailpro2.tn.oxa.host",
+    "SMTP_PORT": "465",
+    "SMTP_SECURE": "true",
+    "SMTP_USER": "contact@dariostore.tn"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
