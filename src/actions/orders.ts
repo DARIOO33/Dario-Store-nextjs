@@ -4,6 +4,8 @@
 // service, and refresh the pages that show the result.
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { clientIp } from "../lib/client-ip";
 import { getCurrentUser, requireRole } from "../lib/session";
 import { TEAM } from "../lib/roles";
 import { safely, UserError, userError } from "../lib/result";
@@ -59,6 +61,7 @@ export async function placeOrderAction(input: PlaceOrderInput) {
       acceptedPickTerms: input.acceptedPickTerms === true,
       userId: user?.id ?? null,
       locale,
+      ip: clientIp(await headers()),
     });
 
     revalidatePath("/admin", "layout");

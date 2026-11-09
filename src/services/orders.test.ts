@@ -249,6 +249,21 @@ describe("placing an order: abuse checks", () => {
     await expect(OrderService.place(checkout())).rejects.toMatchObject({ key: "errors.tooManyOrders" });
   });
 
+  // Netflix has unlimited stock, so only the limit can stop these orders.
+  const unlimited = { items: [{ productId: "netflix", quantity: 1 }], userId: customer.id, paymentMethod: "D17" };
+
+  it("[fixed] limits one IP address to 5 orders an hour, even with a new email each time", async () => {
+    for (let i = 0; i < 5; i++) await OrderService.place(checkout({ ...unlimited, email: `zz-spam${i}@example.tn`, ip: "203.0.113.7" }));
+    await expect(OrderService.place(checkout({ ...unlimited, email: "zz-spam9@example.tn", ip: "203.0.113.7" }))).rejects.toMatchObject({ key: "errors.tooManyOrders" });
+    await OrderService.place(checkout({ ...unlimited, ip: "203.0.113.8" }));
+  });
+
+  it("[fixed] a burst of orders sent at the same moment from one IP can't pass the limit", async () => {
+    const burst = Array.from({ length: 10 }, (_, i) => OrderService.place(checkout({ ...unlimited, email: `zz-burst${i}@example.tn`, ip: "203.0.113.20" })));
+    const results = await Promise.allSettled(burst);
+    expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(5);
+  });
+
   it("checks the contact details", async () => {
     await expect(OrderService.place(checkout({ name: " a " }))).rejects.toMatchObject({ key: "errors.name" });
     await expect(OrderService.place(checkout({ email: "not-an-email" }))).rejects.toMatchObject({ key: "errors.email" });

@@ -13,6 +13,7 @@ import { runAfterResponse } from "../lib/background";
 import { UserError, userError } from "../lib/result";
 import { now } from "../lib/time";
 import { cartKey } from "../lib/cart-key";
+import { recentCounter } from "../lib/recent-counter";
 import { MAX_QUANTITY_PER_LINE, shippingFee } from "../lib/store";
 import { AVAILABLE_CRYPTO_NETWORKS, AVAILABLE_ONLINE_METHODS, paymentLabel, type PaymentMethod } from "../lib/payments";
 import { localized } from "../i18n/content";
@@ -38,6 +39,8 @@ export type CheckoutInput = {
   locale: Locale;
   // The customer ticked "I have read the AliExpress Picks terms" (only asked for an order of picks).
   acceptedPickTerms?: boolean;
+  // The visitor's IP address (lib/client-ip.ts), for the orders-per-hour limit. Null when unknown.
+  ip?: string | null;
 };
 
 type Viewer = { id: string; role: string } | null;
@@ -54,6 +57,8 @@ type OrderLine = {
 };
 
 const MAX_ORDERS_PER_HOUR = 5;
+// Per visitor IP as well: the per-email limit alone was beaten by typing a new email each time.
+const ordersPerIp = recentCounter(60 * 60 * 1000);
 // Same as the cart page: more distinct lines than this isn't a real cart.
 const MAX_LINES = 50;
 
@@ -289,6 +294,10 @@ export const OrderService = {
     const subtotalMillimes = sum(lines);
     const shippingMillimes = requiresShipping && !isPick ? shippingFee(sum(lines.filter((line) => line.product.type === "PHYSICAL"))) : 0;
     const guestToken = input.userId ? null : randomBytes(16).toString("hex");
+
+    // Counted right before the order is saved (after the checks above), with no await in between,
+    // so a burst of requests sent at the same moment can't all pass.
+    if (input.ip && !ordersPerIp.tryAdd(input.ip, MAX_ORDERS_PER_HOUR)) throw userError("errors.tooManyOrders");
 
     const order = await db.transaction(async (tx) => {
       await takeStock(tx, lines);

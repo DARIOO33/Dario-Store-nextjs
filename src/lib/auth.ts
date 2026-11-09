@@ -6,6 +6,7 @@ import { sendEmail } from "./email";
 import { runAfterResponse } from "./background";
 import { verificationCodeEmail } from "./email-templates";
 import { getLocale } from "../i18n/server";
+import { cleanAccountName } from "./account-name";
 
 // Next bundles this file more than once (pages and /api routes), so the pool lives on globalThis:
 // one small pool per server process instead of one per copy, or the database runs out of
@@ -54,6 +55,21 @@ export const auth = betterAuth({
       },
     }),
   ],
+
+  // Every saved name goes through cleanAccountName (see lib/account-name.ts): sign-up, Google, and later edits.
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          const name = cleanAccountName(user.name ?? "") || user.email.split("@")[0]!;
+          return { data: { ...user, name } };
+        },
+      },
+      update: {
+        before: async (user) => (typeof user.name === "string" ? { data: { ...user, name: cleanAccountName(user.name) } } : undefined),
+      },
+    },
+  },
 
   user: {
     additionalFields: {

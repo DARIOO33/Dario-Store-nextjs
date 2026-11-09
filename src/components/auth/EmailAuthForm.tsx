@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/src/lib/auth-client";
+import { MAX_ACCOUNT_NAME } from "@/src/lib/account-name";
 import { useT } from "@/src/i18n/client";
 
 type Props = {
@@ -173,6 +174,7 @@ export default function EmailAuthForm({ mode }: Props) {
             id="auth-name"
             className="input"
             autoComplete="name"
+            maxLength={MAX_ACCOUNT_NAME}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Jane Doe"

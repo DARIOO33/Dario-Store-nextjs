@@ -63,7 +63,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
       ) : (
         <OrderSelectionList rows={rows.map(({ id, orderNumber, status }) => ({ id, orderNumber, status }))} isAdmin={currentUser?.role === "ADMIN"}>
           {rows.map((order) => (
-              <Link href={`/admin/orders/${order.id}`} className="orderCard">
+              <Link key={order.id} href={`/admin/orders/${order.id}`} className="orderCard">
                 <div>
                   <strong className="orderNo">
                     #{order.orderNumber}
