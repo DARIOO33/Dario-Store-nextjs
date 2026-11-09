@@ -5,8 +5,6 @@
   "packageManager": "npm@11.6.0",
   "type": "module",
   "scripts": {
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "build": "next build",
     "postbuild": "node scripts/prepare-standalone.mjs",
     "composer:deploy": "prisma deploy module.ts",
@@ -15,6 +13,7 @@
     "db:init": "prisma db init",
     "db:update": "prisma db update",
     "db:verify": "prisma db verify",
+    "deploy": "npm run build && npm run composer:deploy",
     "dev": "next dev",
     "dev:composer": "npm run build && npm run composer:dev",
     "lint": "eslint",
@@ -49,7 +48,6 @@
     "temporal-polyfill": "^1.0.4"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.20.16",
     "@prisma/dev": "0.25.2",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
@@ -65,8 +63,7 @@
     "tsx": "^4.7.1",
     "typescript": "^5.9.3",
     "vite": "^8.3.1",
-    "vitest": "^5.0.2",
-    "wrangler": "^4.158.0"
+    "vitest": "^5.0.2"
   },
   "overrides": {
     "effect": "4.0.0-rc.112"
